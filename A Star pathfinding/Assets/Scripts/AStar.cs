@@ -32,7 +32,7 @@ public class AStar
             AStarPoint cur = open[lowestFIndex];
             open.RemoveAt(lowestFIndex);
             //check for other paths
-            foreach (AStarPoint child in GetValidNeighbors(cur, position)){
+            foreach (AStarPoint child in GetValidNeighbors(cur)){
                 //check if reached target position
                 if(child.pos == target){
                     return child;
@@ -61,18 +61,18 @@ public class AStar
     }
 
     //Gets the neighbors of a point
-    public List<AStarPoint> GetValidNeighbors(AStarPoint p, Vector2 position){
+    public List<AStarPoint> GetValidNeighbors(AStarPoint p){
         List<AStarPoint> neighbors = new List<AStarPoint>();
         foreach(AStarPoint a in GetNeighbors(p)){
-            if(!HasCollision(a, position)){
+            if(!HasCollision(a)){
                 neighbors.Add(a);
             }
         }
         return neighbors;
     }
 
-    public bool HasCollision(AStarPoint p, Vector2 position){
-        return Physics2D.OverlapCircle(position + p.pos, (gridSize*0.9f)/2, collisionLayer) != null;
+    public bool HasCollision(AStarPoint p){
+        return Physics2D.OverlapCircle(p.pos, (gridSize*0.9f)/2, collisionLayer) != null;
     }
 
     public List<AStarPoint> GetNeighbors(AStarPoint p){

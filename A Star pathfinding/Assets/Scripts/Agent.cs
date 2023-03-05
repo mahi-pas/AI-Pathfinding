@@ -53,11 +53,11 @@ public class Agent : MonoBehaviour
     //Just some tester code
     public void Test(){
         AStarPoint p = new AStarPoint();
-        Debug.Log(p+ " Has Collision = " + astar.HasCollision(p,transform.position));
+        Debug.Log(p+ " Has Collision = " + astar.HasCollision(p));
         AStarPoint q = new AStarPoint(new Vector2(0,-1));
-        Debug.Log(q + " Has Collision = " + astar.HasCollision(q,transform.position));
-        foreach (AStarPoint child in astar.GetValidNeighbors(p, transform.position)){
-            Debug.Log(child + " Has Collision = " + astar.HasCollision(child,transform.position));
+        Debug.Log(q + " Has Collision = " + astar.HasCollision(q));
+        foreach (AStarPoint child in astar.GetValidNeighbors(p)){
+            Debug.Log(child + " Has Collision = " + astar.HasCollision(child));
         }
     }
 }
