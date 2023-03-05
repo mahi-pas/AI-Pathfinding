@@ -3,56 +3,11 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 
-public class AStarPoint{
-    public Vector2 pos;
-    public float g;
-    public float h;
-    public float f;
-    public AStarPoint prev;
-
-    //Constructors
-    public AStarPoint(){
-        pos = Vector2.zero;
-        g = 0f;
-        h = 0f;
-        f = 0f;
-        prev = null;
-    }
-
-    public AStarPoint(Vector2 p_, float g_ = 0f, float h_ = 0f, float f_ = 0f, AStarPoint prev_ = null){
-        pos = p_;
-        g = g_;
-        h = h_;
-        f = f_;
-        prev = prev_;
-    }
-
-    //Functions
-    public override bool Equals(object obj){
-        if(obj == null || !this.GetType().Equals(obj.GetType())){
-            return false;
-        }
-        else{
-            return pos == ((AStarPoint)obj).pos;
-        }
-    }
-
-    public override int GetHashCode(){
-        return 0;
-    }
-
-    public override string ToString()
-    {
-        return "("+pos.x+","+pos.y+") g: "+g+" h:"+h+" f:"+f;
-    }
-
-}
-
 public class AStar
 {
     public float gridSize;
-    public Stack<AStarPoint> open;
-    public Stack<AStarPoint> closed;
+    public List<AStarPoint> open;
+    public List<AStarPoint> closed;
     public LayerMask collisionLayer;
 
     //Constructors
@@ -66,27 +21,42 @@ public class AStar
         collisionLayer = collisionLayer_;
     }
 
-    public void PathFind(Vector2 target, Vector2 position){
-        open = new Stack<AStarPoint>();
-        closed = new Stack<AStarPoint>();
+    public AStarPoint PathFind(Vector2 position, Vector2 target){
+        open = new List<AStarPoint>();
+        closed = new List<AStarPoint>();
 
-        open.Push(new AStarPoint());
+        open.Add(new AStarPoint());
 
         while(open.Count != 0){
-            AStarPoint cur = open.Pop();
-            //check if reached target position
-            if(cur.pos == target){
-                Debug.Log("Reached Target!");
-                return;
-            }
-            //add current to closed list
-            closed.Push(cur);
+            int lowestFIndex = AStarPoint.LowestFValueIndex(open);
+            AStarPoint cur = open[lowestFIndex];
+            open.RemoveAt(lowestFIndex);
             //check for other paths
             foreach (AStarPoint child in GetValidNeighbors(cur, position)){
+                //check if reached target position
+                if(child.pos == target){
+                    return child;
+                }
+                child.g = cur.g + Vector2.Distance(cur.pos,child.pos);
+                child.h = Vector2.Distance(child.pos, target);
+                child.f = child.g + child.h;
 
+                bool hasLowestF = true;
+                //if lower f on open
+                foreach (AStarPoint point in open){
+                    if(point.pos == child.pos && child.f >= point.f) hasLowestF = false;
+                }
+                //if lower f on closed
+                foreach (AStarPoint point in closed){
+                    if(point.pos == child.pos && child.f >= point.f) hasLowestF = false;
+                }
+                if(hasLowestF) open.Add(child);
+                
             }
+            //add current to closed list
+            closed.Add(cur);
         }
-        
+        return null;
 
     }
 
@@ -101,13 +71,23 @@ public class AStar
         return neighbors;
     }
 
-    public List<AStarPoint> GetNeighbors(AStarPoint p){
-        List<AStarPoint> neighbors = new List<AStarPoint>();
-        return neighbors;
-    }
-
     public bool HasCollision(AStarPoint p, Vector2 position){
         return Physics2D.OverlapCircle(position + p.pos, (gridSize*0.9f)/2, collisionLayer) != null;
     }
+
+    public List<AStarPoint> GetNeighbors(AStarPoint p){
+        List<AStarPoint> neighbors = new List<AStarPoint>();
+        neighbors.Add(new AStarPoint(p.pos + (new Vector2(0,1) * gridSize), p));
+        neighbors.Add(new AStarPoint(p.pos + (new Vector2(0,-1) * gridSize), p));
+        neighbors.Add(new AStarPoint(p.pos + (new Vector2(1,1) * gridSize), p));
+        neighbors.Add(new AStarPoint(p.pos + (new Vector2(1,-1) * gridSize), p));
+        neighbors.Add(new AStarPoint(p.pos + (new Vector2(-1,1) * gridSize), p));
+        neighbors.Add(new AStarPoint(p.pos + (new Vector2(-1,-1) * gridSize), p));
+        neighbors.Add(new AStarPoint(p.pos + (new Vector2(1,0) * gridSize), p));
+        neighbors.Add(new AStarPoint(p.pos + (new Vector2(-1,0) * gridSize), p));
+        return neighbors;
+    }
+
+
 
 }
