@@ -7,8 +7,8 @@ public class CameraMovement : MonoBehaviour
     private const float SPEED = 1f, SCALE = 2;
     private Camera cam;
 
-    private float targetZoom;
-    private float zoomFactor = 3f;
+    private float targetZoom = 5f;
+    private float zoomFactor = 10f;
     [SerializeField] private float zoomSpeed = 10f;
 
     // Start is called before the first frame update

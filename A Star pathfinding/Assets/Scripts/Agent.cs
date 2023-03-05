@@ -14,12 +14,15 @@ public class Agent : MonoBehaviour
     public GameObject visualizer;
     public GameObject pathVisualizer;
     public List<GameObject> pathVisualizers;
+    public Vector2 prevTarget;
 
     // Start is called before the first frame update
     void Start()
     {
         astar = new AStar(gridSize, collisionLayer);
         astar.visualizer = visualizer;
+
+        prevTarget = transform.position;
         //Test();
         //PathFindAStar(new Vector2(transform.position.x, transform.position.y), targetPos);
     }
@@ -42,6 +45,7 @@ public class Agent : MonoBehaviour
     }
 
     public void PathFindAStar(Vector2 pos, Vector2 targ){
+        prevTarget = targ;
         astar.ClearVisualizers();
         AStarPoint path = astar.PathFind(pos, targ);
         target = new List<Vector2>();

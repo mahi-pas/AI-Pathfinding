@@ -45,3 +45,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 0}
+  mode: 0
+  instructions: {fileID: 0}
+  placedWall: {fileID: 7453342492560670394, guid: ef6b0b3e2983f024696b90b69238901a, type: 3}
