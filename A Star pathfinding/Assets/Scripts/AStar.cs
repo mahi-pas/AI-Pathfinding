@@ -13,6 +13,11 @@ public class AStar
     public List<GameObject> visualizers;
     public MonoBehaviour mb;
 
+    public enum Heuristic {Euclidean, Manhattan};
+    public Heuristic heuristicMode = Heuristic.Euclidean;
+    public float gWeight = 1f;
+    public float hWeight = 1f;
+
     //Constructors
     public AStar(){
         gridSize = 1f;
@@ -53,9 +58,18 @@ public class AStar
                     //ClearVisualizers();
                     return child;
                 }
-                child.g = cur.g + Vector2.Distance(cur.pos,child.pos);
-                child.h = Vector2.Distance(child.pos, target);
-                child.f = child.g + child.h;
+                switch (heuristicMode){
+                    case Heuristic.Manhattan:
+                        child.g = cur.g + ManhattanDistance(cur.pos,child.pos);
+                        child.h = ManhattanDistance(child.pos, target);
+                        break;
+                    default: //Also for Euclidean
+                        child.g = cur.g + Vector2.Distance(cur.pos,child.pos);
+                        child.h = Vector2.Distance(child.pos, target);
+                        break;
+                }
+                
+                child.f = (child.g * gWeight) + (child.h * hWeight);
 
                 bool hasLowestF = true;
                 //if lower f on open
@@ -105,6 +119,11 @@ public class AStar
         neighbors.Add(new AStarPoint(p.pos + (new Vector2(1,0) * gridSize), p));
         neighbors.Add(new AStarPoint(p.pos + (new Vector2(-1,0) * gridSize), p));
         return neighbors;
+    }
+
+    //Heuristics
+    public float ManhattanDistance(Vector2 x, Vector2 y){
+        return (Mathf.Abs(x.x - y.x) + Mathf.Abs(x.y - y.y));
     }
     
     //Visualization

@@ -68,6 +68,26 @@ public class Agent : MonoBehaviour
         }
     }
 
+    //Control Algorithm
+    public void ChangeHeuristicMode(int mode){
+        switch(mode){
+            case 0:
+                astar.heuristicMode = AStar.Heuristic.Euclidean;
+                break;
+            case 1:
+                astar.heuristicMode = AStar.Heuristic.Manhattan;
+                break;
+        }
+    }
+
+    public void ChangeGWeight(string weight){
+        astar.gWeight = float.Parse(weight);
+    }
+
+    public void ChangeHWeight(string weight){
+        astar.gWeight = float.Parse(weight);
+    }
+
 
     //Just some tester code
     public void Test(){
