@@ -7,6 +7,10 @@ public class CameraMovement : MonoBehaviour
     private const float SPEED = 1f, SCALE = 2;
     private Camera cam;
 
+    private float targetZoom;
+    private float zoomFactor = 3f;
+    [SerializeField] private float zoomSpeed = 10f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -33,13 +37,12 @@ public class CameraMovement : MonoBehaviour
             transform.position += new Vector3(0, SPEED * cam.orthographicSize * Time.deltaTime);
         }
 
-        if (Input.GetMouseButtonDown(0))
-        {
-            cam.orthographicSize -= SCALE;
-        }
-        if (Input.GetMouseButtonDown(1))
-        {
-            cam.orthographicSize += SCALE;
-        }
+        float scrollData = Input.GetAxis("Mouse ScrollWheel");
+        targetZoom -= scrollData * zoomFactor;
+        targetZoom = Mathf.Clamp(targetZoom, 0f, float.MaxValue);
+    }
+
+    void FixedUpdate(){
+        cam.orthographicSize = Mathf.Lerp(cam.orthographicSize, targetZoom, Time.fixedDeltaTime * zoomSpeed);
     }
 }
