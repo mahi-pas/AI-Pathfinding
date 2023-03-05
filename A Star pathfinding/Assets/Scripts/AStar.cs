@@ -25,7 +25,7 @@ public class AStar
         open = new List<AStarPoint>();
         closed = new List<AStarPoint>();
 
-        open.Add(new AStarPoint());
+        open.Add(new AStarPoint(position));
 
         while(open.Count != 0){
             int lowestFIndex = AStarPoint.LowestFValueIndex(open);
