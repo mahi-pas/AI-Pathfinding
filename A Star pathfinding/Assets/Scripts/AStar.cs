@@ -9,23 +9,35 @@ public class AStar
     public List<AStarPoint> open;
     public List<AStarPoint> closed;
     public LayerMask collisionLayer;
+    public GameObject visualizer;
+    public List<GameObject> visualizers;
+    public MonoBehaviour mb;
 
     //Constructors
     public AStar(){
         gridSize = 1f;
         collisionLayer = Physics.DefaultRaycastLayers;
+        open = new List<AStarPoint>();
+        closed = new List<AStarPoint>();
+        visualizers = new List<GameObject>();
     }
 
     public AStar(float gridSize_,LayerMask collisionLayer_){
         gridSize = gridSize_;
         collisionLayer = collisionLayer_;
+        open = new List<AStarPoint>();
+        closed = new List<AStarPoint>();
+        visualizers = new List<GameObject>();
     }
 
     public AStarPoint PathFind(Vector2 position, Vector2 target){
         open = new List<AStarPoint>();
         closed = new List<AStarPoint>();
+        visualizers = new List<GameObject>();
 
         open.Add(new AStarPoint(position));
+        Vector3 converted = position;
+        AddVisualizer(converted);
 
         while(open.Count != 0){
             int lowestFIndex = AStarPoint.LowestFValueIndex(open);
@@ -33,8 +45,12 @@ public class AStar
             open.RemoveAt(lowestFIndex);
             //check for other paths
             foreach (AStarPoint child in GetValidNeighbors(cur)){
+                //visualize
+                Vector3 converted2 = child.pos;
+                AddVisualizer(converted2);
                 //check if reached target position
                 if(child.pos == target){
+                    //ClearVisualizers();
                     return child;
                 }
                 child.g = cur.g + Vector2.Distance(cur.pos,child.pos);
@@ -50,12 +66,15 @@ public class AStar
                 foreach (AStarPoint point in closed){
                     if(point.pos == child.pos && child.f >= point.f) hasLowestF = false;
                 }
-                if(hasLowestF) open.Add(child);
+                if(hasLowestF) {
+                    open.Add(child);
+                }
                 
             }
             //add current to closed list
             closed.Add(cur);
         }
+        //ClearVisualizers();
         return null;
 
     }
@@ -87,7 +106,16 @@ public class AStar
         neighbors.Add(new AStarPoint(p.pos + (new Vector2(-1,0) * gridSize), p));
         return neighbors;
     }
+    
+    //Visualization
+    public void AddVisualizer(Vector3 position){
+        visualizers.Add(GameObject.Instantiate(visualizer, position, Quaternion.identity));
+    }
 
-
+    public void ClearVisualizers(){
+        for(int i = visualizers.Count-1; i>=0; i--){
+            GameObject.Destroy(visualizers[i]);
+        }
+    }
 
 }

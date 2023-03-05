@@ -8,6 +8,7 @@ public class AStarPoint{
     public float h;
     public float f;
     public AStarPoint prev;
+    public GameObject visualizer;
 
     //Constructors
     public AStarPoint(){

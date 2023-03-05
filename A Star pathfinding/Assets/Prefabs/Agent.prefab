@@ -51,7 +51,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   target: []
-  targetPos: {x: 0, y: 0}
+  visualizer: {fileID: 6994311258454361927, guid: 898c1ab630ff1fb42b2ef7713d693274, type: 3}
+  pathVisualizer: {fileID: 6994311258454361927, guid: de81673ad22304946a92a46df715d1f0, type: 3}
+  pathVisualizers: []
 --- !u!1 &7920155793152269660
 GameObject:
   m_ObjectHideFlags: 0
@@ -124,7 +126,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 4
   m_Sprite: {fileID: 21300000, guid: 1505a54ef18158946a41aa9f864eda4c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
