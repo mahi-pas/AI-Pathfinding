@@ -22,7 +22,7 @@ public class Controller : MonoBehaviour
 
             if(!agent.astar.HasCollision(new AStarPoint(mousePosition))){
                 Vector2 agentPosition = new Vector2(Mathf.Round(agent.transform.position.x), Mathf.Round(agent.transform.position.y));
-                agent.PathFindAStar(agentPosition, mousePosition);
+                agent.PathFind(agentPosition, mousePosition);
 
                 //UI stuff
                 instructions.text = "";
@@ -38,7 +38,7 @@ public class Controller : MonoBehaviour
                 Instantiate(placedWall, mousePosition, Quaternion.identity);
                 //recalculate agent movement
                 if(agent.target.Count>0)
-                    agent.PathFindAStar(agentPosition, agent.prevTarget);
+                    agent.PathFind(agentPosition, agent.prevTarget);
                 //UI stuff
                 instructions.text = "";
                 mode = Mode.None;

@@ -6,6 +6,8 @@ public class Agent : MonoBehaviour
 {
     [Header("Agent")]
     public float speed = 5f;
+    public enum PathfindMode {AStar, Waypoint};
+    public PathfindMode pathfindMode = PathfindMode.AStar;
     [Header("A*")]
     public AStar astar;
     public float gridSize;
@@ -42,6 +44,17 @@ public class Agent : MonoBehaviour
             if(target.Count != 0) target.RemoveAt(target.Count-1);
         }
         
+    }
+
+    public void PathFind(Vector2 pos, Vector2 targ){
+        switch (pathfindMode){
+            case PathfindMode.AStar:
+                PathFindAStar(pos, targ);
+                break;
+            case PathfindMode.Waypoint:
+                break;
+        }
+
     }
 
     public void PathFindAStar(Vector2 pos, Vector2 targ){
