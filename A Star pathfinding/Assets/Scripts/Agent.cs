@@ -10,6 +10,7 @@ public class Agent : MonoBehaviour
     public PathfindMode pathfindMode = PathfindMode.AStar;
     [Header("A*")]
     public AStar astar;
+    public AStarWaypoint astarwaypoint;
     public float gridSize;
     public LayerMask collisionLayer;
     public List<Vector2> target;
@@ -23,6 +24,8 @@ public class Agent : MonoBehaviour
     {
         astar = new AStar(gridSize, collisionLayer);
         astar.visualizer = visualizer;
+        astarwaypoint = new AStarWaypoint(gridSize, collisionLayer);
+        astarwaypoint.visualizer = visualizer;
 
         prevTarget = transform.position;
         //Test();
@@ -52,6 +55,7 @@ public class Agent : MonoBehaviour
                 PathFindAStar(pos, targ);
                 break;
             case PathfindMode.Waypoint:
+                PathFindAStarWaypoint(pos, targ);
                 break;
         }
 
@@ -60,9 +64,26 @@ public class Agent : MonoBehaviour
     public void PathFindAStar(Vector2 pos, Vector2 targ){
         prevTarget = targ;
         astar.ClearVisualizers();
+        astarwaypoint.ClearVisualizers();
         AStarPoint path = astar.PathFind(pos, targ);
         target = new List<Vector2>();
         while(path != null){
+            target.Add(path.pos);
+            path = path.prev;
+        }
+        ShowPath(target);
+        Debug.Log(string.Join(", ", target));
+    }
+
+    public void PathFindAStarWaypoint(Vector2 pos, Vector2 targ)
+    {
+        prevTarget = targ;
+        astar.ClearVisualizers();
+        astarwaypoint.ClearVisualizers();
+        AStarPoint path = astarwaypoint.PathFind(pos, targ);
+        target = new List<Vector2>();
+        while (path != null)
+        {
             target.Add(path.pos);
             path = path.prev;
         }

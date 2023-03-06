@@ -9,6 +9,7 @@ public class AStarPoint{
     public float f;
     public AStarPoint prev;
     public GameObject visualizer;
+    public GameObject waypoint;
 
     //Constructors
     public AStarPoint(){
@@ -17,22 +18,36 @@ public class AStarPoint{
         h = 0f;
         f = 0f;
         prev = null;
+        waypoint = null;
     }
 
-    public AStarPoint(Vector2 p_, float g_ = 0f, float h_ = 0f, float f_ = 0f, AStarPoint prev_ = null){
+    public AStarPoint(Vector2 p_, float g_ = 0f, float h_ = 0f, float f_ = 0f, AStarPoint prev_ = null, GameObject waypoint_ = null){
         pos = p_;
         g = g_;
         h = h_;
         f = f_;
         prev = prev_;
+        waypoint = waypoint_;
     }
 
-    public AStarPoint(Vector2 p_, AStarPoint prev_){
+    public AStarPoint(Vector2 p_, AStarPoint prev_, GameObject waypoint_ = null)
+    {
         pos = p_;
         g = 0f;
         h = 0f;
         f = 0f;
         prev = prev_;
+        waypoint = waypoint_;
+    }
+
+    public AStarPoint(GameObject waypoint_, AStarPoint prev_)
+    {
+        g = 0f;
+        h = 0f;
+        f = 0f;
+        waypoint = waypoint_;
+        prev = prev_;
+        pos = waypoint_.transform.position;
     }
 
     //Functions
