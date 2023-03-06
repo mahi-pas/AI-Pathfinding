@@ -21368,7 +21368,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: AR0011SR
+  m_Text: AR0011SR (Huge)
 --- !u!222 &1208102517
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -21707,7 +21707,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: LAK104D
+  m_Text: LAK104D (Medium)
 --- !u!222 &2141065408
 CanvasRenderer:
   m_ObjectHideFlags: 0
