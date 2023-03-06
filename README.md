@@ -1,4 +1,6 @@
 # AI-Pathfinding
+ 
+Play the demo here: https://rainyelephant.itch.io/ai-demo-pathfinding-a-and-waypoint
 
 ### Implementation of:
 - A* Pathfinding
