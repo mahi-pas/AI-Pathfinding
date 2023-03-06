@@ -97,6 +97,10 @@ public class Agent : MonoBehaviour
         }
     }
 
+    public void SetPathfindMode(int m){
+        pathfindMode = (PathfindMode) m;
+    }
+
     public void ChangeGWeight(string weight){
         astar.gWeight = float.Parse(weight);
     }
