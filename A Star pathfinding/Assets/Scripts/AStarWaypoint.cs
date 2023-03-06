@@ -43,7 +43,7 @@ public class AStarWaypoint
         GameObject startNode = FindClosestNode(position);
         GameObject endNode = FindClosestNode(target);
 
-        open.Add(new AStarPoint(startNode, null));
+        open.Add(new AStarPoint(startNode, new AStarPoint(position, null)));
         Vector3 converted = startNode.transform.position;
         AddVisualizer(converted);
 
@@ -136,6 +136,12 @@ public class AStarWaypoint
     public void ClearVisualizers(){
         for(int i = visualizers.Count-1; i>=0; i--){
             GameObject.Destroy(visualizers[i]);
+        }
+        GameObject p = GameObject.Find("Edges");
+        for (int i = 0; i < p.transform.childCount; i++)
+        {
+            p.transform.GetChild(i).GetComponent<LineRenderer>().startColor = Color.white;
+            p.transform.GetChild(i).GetComponent<LineRenderer>().endColor = Color.white;
         }
     }
 

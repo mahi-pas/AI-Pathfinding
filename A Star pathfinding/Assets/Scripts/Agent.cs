@@ -81,11 +81,27 @@ public class Agent : MonoBehaviour
         astar.ClearVisualizers();
         astarwaypoint.ClearVisualizers();
         AStarPoint path = astarwaypoint.PathFind(pos, targ);
+        GameObject.Find("EndEdge").GetComponent<LineRenderer>().SetPosition(0, path.pos);
+        GameObject.Find("EndEdge").GetComponent<LineRenderer>().SetPosition(1, path.prev.pos);
         target = new List<Vector2>();
         while (path != null)
         {
             target.Add(path.pos);
+            if (path.prev != null && path.prev.prev == null)
+            {
+                GameObject.Find("StartEdge").GetComponent<LineRenderer>().SetPosition(0, path.pos);
+                GameObject.Find("StartEdge").GetComponent<LineRenderer>().SetPosition(1, path.prev.pos);
+            }
             path = path.prev;
+            if (path != null && path.waypoint && path.prev != null)
+            {
+                GameObject e = path.waypoint.GetComponent<Waypoint>().GetEdge(path.prev.waypoint);
+                if (e)
+                {
+                    e.GetComponent<LineRenderer>().startColor = Color.green;
+                    e.GetComponent<LineRenderer>().endColor = Color.green;
+                }
+            }
         }
         ShowPath(target);
         Debug.Log(string.Join(", ", target));

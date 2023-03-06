@@ -77,6 +77,18 @@ public class Waypoint : MonoBehaviour
         return edges[index];
     }
 
+    public GameObject GetEdge(GameObject waypoint)
+    {
+        for (int i = 0; i < edges.Count; i++)
+        {
+            if (GetLinkedNode(i) == waypoint)
+            {
+                return GetEdge(i);
+            }
+        }
+        return null;
+    }
+
     public int GetNumEdges()
     {
         return edges.Count;
